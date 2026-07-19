@@ -18,7 +18,7 @@ class Points(commands.Cog):
 
     def save_points(self, data):
         with open(self.file, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=4)
+            json.dump(data, f, indent=4, ensure_ascii=False)
 
     @commands.command(name="نقاطي")
     async def my_points(self, ctx):
@@ -59,5 +59,5 @@ class Points(commands.Cog):
 
         await ctx.send(f"❌ تم سحب **{amount}** نقطة من {member.mention}")
 
-def setup(bot):
-    bot.add_cog(Points(bot))
+async def setup(bot):
+    await bot.add_cog(Points(bot))
