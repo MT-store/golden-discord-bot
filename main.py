@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+import os
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -10,7 +11,8 @@ bot = commands.Bot(command_prefix="-", intents=intents)
 async def on_ready():
     print(f"تم تشغيل البوت: {bot.user}")
 
+
 bot.load_extension("points")
 
 
-bot.run(os.environ[""])
+bot.run(os.environ["TOKEN"])
