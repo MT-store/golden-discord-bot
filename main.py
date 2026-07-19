@@ -5,9 +5,7 @@ import os
 from flask import Flask
 from threading import Thread
 
-
 app = Flask(__name__)
-
 
 @app.route("/")
 def home():
@@ -21,7 +19,7 @@ def run():
     )
 
 
-Thread(target=run).start()
+Thread(target=run, daemon=True).start()
 
 
 intents = discord.Intents.default()
@@ -30,7 +28,6 @@ intents.members = True
 
 
 class MyBot(commands.Bot):
-
     async def setup_hook(self):
         await self.load_extension("points")
         await self.load_extension("auto_reply")
@@ -45,10 +42,12 @@ bot = MyBot(
 
 @bot.event
 async def on_ready():
-    print(f"تم تشغيل البوت: {bot.user}")
+    print("=" * 35)
+    print(f"✅ تم تشغيل البوت: {bot.user}")
+    print("=" * 35)
 
 
-print("جاري تشغيل البوت...")
+print("🚀 جاري تشغيل البوت...")
 
 
 bot.run(os.environ["TOKEN"])
