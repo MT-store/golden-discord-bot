@@ -12,4 +12,5 @@ async def on_ready():
 
 bot.load_extension("points")
 
-bot.run("MTUyODEyMzMzODkxNDc5MTU2NA.G2EPyQ.C1RtDQJfQ6ICjJgdKCaGMyvHA7dG83Exs6BChE")
+
+bot.run(os.environ[""])
