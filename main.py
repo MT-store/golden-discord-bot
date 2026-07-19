@@ -19,6 +19,7 @@ def run():
 
 Thread(target=run).start()
 
+
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
@@ -28,13 +29,18 @@ bot = commands.Bot(
     intents=intents
 )
 
+
 @bot.event
 async def on_ready():
     print(f"تم تشغيل البوت: {bot.user}")
 
+
 async def setup_hook():
     await bot.load_extension("points")
+    await bot.load_extension("auto_reply")
+
 
 bot.setup_hook = setup_hook
+
 
 bot.run(os.environ["TOKEN"])
