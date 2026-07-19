@@ -10,4 +10,6 @@ bot = commands.Bot(command_prefix="-", intents=intents)
 async def on_ready():
     print(f"تم تشغيل البوت: {bot.user}")
 
-bot.run("TOKEN")
+bot.load_extension("points")
+
+bot.run("MTUyODEyMzMzODkxNDc5MTU2NA.G2EPyQ.C1RtDQJfQ6ICjJgdKCaGMyvHA7dG83Exs6BChE")
