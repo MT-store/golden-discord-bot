@@ -1,52 +1,49 @@
 import discord
 from discord.ext import commands
+import os
+
+from flask import Flask
+from threading import Thread
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Bot is running"
+
+def run():
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 10000))
+    )
+
+Thread(target=run).start()
 
 
-class Roulette(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
-        self.players = []
+intents = discord.Intents.default()
+intents.message_content = True
+intents.members = True
+
+bot = commands.Bot(
+    command_prefix="-",
+    intents=intents
+)
 
 
-    @commands.command(name="روليت")
-    async def roulette(self, ctx):
-
-        embed = discord.Embed(
-            title="🎰 روليت الطرد",
-            description="اضغط الزر للدخول\n\n👥 المشاركين: 0",
-            color=0xff0000
-        )
-
-        view = discord.ui.View(timeout=None)
-
-        button = discord.ui.Button(
-            label="دخول",
-            emoji="🟢",
-            style=discord.ButtonStyle.success
-        )
-
-        async def join_callback(interaction):
-            user = interaction.user
-
-            if user in self.players:
-                await interaction.response.send_message(
-                    "⚠️ أنت داخل الروليت مسبقاً",
-                    ephemeral=True
-                )
-                return
-
-            self.players.append(user)
-
-            await interaction.response.send_message(
-                "✅ دخلت بنجاح!",
-                ephemeral=True
-            )
-
-        button.callback = join_callback
-        view.add_item(button)
-
-        await ctx.send(embed=embed, view=view)
+@bot.event
+async def on_ready():
+    print(f"تم تشغيل البوت: {bot.user}")
 
 
-async def setup(bot):
-    await bot.add_cog(Roulette(bot))
+async def setup_hook():
+    await bot.load_extension("points")
+    await bot.load_extension("auto_reply")
+    await bot.load_extension("roulette")
+
+
+bot.setup_hook = setup_hook
+
+
+print("جاري تشغيل البوت...")
+
+bot.run(os.environ["TOKEN"])
